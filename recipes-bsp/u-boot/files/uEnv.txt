@@ -1,0 +1,2 @@
+load_ostree_env=load ${devtype} ${bootpart} ${loadaddr} /boot/loader/uEnv.txt
+loadimage=run load_ostree_env; run importbootenv; load ${devtype} ${bootpart} ${loadaddr} ${bootdir}/${kernel_image}; load ${devtype} ${bootpart} ${rdaddr} ${bootdir}/${ramdisk_image}; bootm ${loadaddr}#${fdtfile} ${rdaddr}
