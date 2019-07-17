@@ -1,0 +1,14 @@
+loadaddr=0x82000000
+rdaddr=0x83000000
+
+ostree_env=load mmc ${bootpart} ${loadaddr} /boot/loader/uEnv.txt
+ostree_args=setenv bootargs console=${console} ${optargs} ${bootargs}
+ostree_load_kern=load mmc ${bootpart} ${loadaddr} ${bootdir}${kernel_image}
+ostree_load_rd=load mmc ${bootpart} ${rdaddr} ${bootdir}${ramdisk_image}
+
+init_mmc=run ostree_env importbootenv args_all ostree_args
+get_kern_mmc=run ostree_load_kern ostree_load_rd
+get_fdt_mmc=true
+get_overlay_mmc=for overlay in $overlay_files;do;setenv overlaystring ${overlaystring}'#'${overlay};done
+run_kern=bootm ${loadaddr}#${fdtfile}${overlaystring} ${rdaddr}
+
